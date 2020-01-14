@@ -7,62 +7,60 @@ let cityName = "";
 document.getElementById("getWeatherForecast").addEventListener("click", function() {
     cityName = document.getElementById("city").value;
 
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=01951a6e2ef5df48e90ed4c64b1234fc`)
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=01951a6e2ef5df48e90ed4c64b1234fc&units=metric`)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
 
-            console.log(data.list);
-
+            //console.log(data)
+            //console.log(data.list);
+            //console.log(data.list[0].main.temp)
+            //console.log(data.list[17].weather[0].main)
             var unixTimestamp = data.list[0].dt;
             var date = new Date(unixTimestamp * 1000);
             var day = date.getDate();
-            console.log(day);
+            //console.log(day);
+            let temp = [];
+            for (let i = 0; i <40; i++) {
+                temp.push(data.list[i].main.temp);
+
+            }
+
+            console.log(temp)
+           var day1temp= temp.slice(0,8)
+           var day2temp= temp.slice(8,16)
+           var day3temp= temp.slice(16,24)
+           var day4temp= temp.slice(24,32)
+           var day5temp= temp.slice(32,40)
+            console.log(day1temp)
+            let arrAvg = arr => arr.reduce((a,b) => a + b, 0) / arr.length
+            console.log(Math.round(arrAvg(day5temp)))
+
+
+            document.getElementById("tempday1").innerHTML=  "Today " +Math.round(arrAvg(day1temp)) +"° celcius"
+            document.getElementById("tempday2").innerHTML=  "Tomorrow " +Math.round(arrAvg(day2temp)) +"° celcius"
+            document.getElementById("tempday3").innerHTML=  "Day after Tomorrow "+Math.round(arrAvg(day3temp)) +"° celcius"
+            document.getElementById("tempday4").innerHTML=  "Next Four days "+Math.round(arrAvg(day4temp)) +"° celcius"
+            document.getElementById("tempday4").innerHTML=  "Next Five days "+Math.round(arrAvg(day5temp)) +"° celcius"
 
         })
-
 });
 
-
-
-
-                function drawWeather( d ) {
-                    var celcius = Math.round(parseFloat(d.main.temp)-273.15);
-                    var fahrenheit = Math.round(((parseFloat(d.main.temp)-273.15)*1.8)+32);
-
+function drawWeather( d ) {
+                    var celcius = Math.round(parseFloat(d.main.temp));
+                    var fahrenheit = Math.round(((parseFloat(d.main.temp))*1.8)+32);
                     var description = d.weather[0].description;
                     document.getElementById('description').innerHTML = d.weather[0].description;
                     document.getElementById('temp').innerHTML = celcius + '&deg;';
                     document.getElementById('location').innerHTML = d.name;
-
-
                     document.getElementById("target").appendChild(temp);
-
-
         }
-let listD0 = [], listD1 = [], listD2 = [], listD3 = [], listD4 = [];
 
-data.list.forEach(function (list) {
+        //code explanation
+/*I worked with getting data out of the list in weather which contain 0-40
+I did the same in the main also
+Using for loop (let i = 0; i <40; i++)
 
-    let DateOfTheList = new Date(list.dt_txt).toDateString();
-
-    switch (DateOfTheList) {
-        case date[0]:
-            listD0.push(list);
-            break;
-        case date[1]:
-            listD1.push(list);
-            break;
-        case date[2]:
-            listD2.push(list);
-            break;
-        case date[3]:
-            listD3.push(list);
-            break;
-        case date[4]:
-            listD4.push(list);
-            break;
-        default:
-            return;
-    }
+let arrAvg = arr => arr.reduce((a,b) => a + b, 0) / arr.length    i got this from google to get the average
+doing this 5 times*/
