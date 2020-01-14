@@ -8,7 +8,7 @@ document.getElementById("getWeatherForecast").addEventListener("click", function
     cityName = document.getElementById("city").value;
     console.log(cityName);
 
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=01951a6e2ef5df48e90ed4c64b1234fc&units=metric`)
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=01951a6e2ef5df48e90ed4c64b1234fc&units=metric`)
         .then(function (response) {
             return response.json();
         })
